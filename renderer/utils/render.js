@@ -45,7 +45,6 @@ function renderElement(ctx, task, el) {
       };
       const { width, height, x, y } = finalProps;
       let img = new Image();
-      img.crossOrigin = "anonymous";
       let svg = new Blob([children], { type: 'image/svg+xml;charset=utf-8' });
       const url = DOMURL.createObjectURL(svg);
       img.onload = function onImageLoad() {
@@ -105,7 +104,6 @@ export default function render(ctx, options, el, callback) {
     canvas.style.height = height + 'px';
     sized = true;
   }
-
 
   /*
   ctx.font = '48px serif';

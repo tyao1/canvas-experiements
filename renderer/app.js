@@ -50,6 +50,8 @@ const tree = el('rect', {
   width: realWidth,
   fillStyle: '#fff',
 }, [
+/*
+  safari不支持，chrome无法输出结果
   el('dom', {
     x: 0,
     y: 0,
@@ -75,6 +77,7 @@ const tree = el('rect', {
 </div>
 </foreignObject>
 </svg>`),
+*/
   el('text', {
     x: realWidth / 2 - 90,
     y: realHeight - 36,
@@ -95,7 +98,6 @@ const tree = el('rect', {
     x: realWidth / 2 - 250,
     y: realHeight / 2,
   }),
-
 ]);
 
 
@@ -108,18 +110,25 @@ render(ctx, {
   alert('Finished without errors');
   */
 
-  /*
-  canvas.toBlob(function(blob) {
-    var newImg = document.createElement("img"),
-        url = URL.createObjectURL(blob);
+  const pngUrl = canvas.toDataURL();
+  console.log('dataUrl', pngUrl);
 
-    newImg.onload = function() {
-      // no longer need to read the blob so it's revoked
-      URL.revokeObjectURL(url);
-    };
+  if (canvas.toBlob) {
+    canvas.toBlob(function(blob) {
+      var newImg = document.createElement("img"),
+          url = URL.createObjectURL(blob);
 
-    newImg.src = url;
-    document.body.appendChild(newImg);
-  });
-  */
+      newImg.onload = function() {
+        // no longer need to read the blob so it's revoked
+        URL.revokeObjectURL(url);
+      };
+
+      newImg.src = url;
+      document.body.appendChild(newImg);
+    });
+  }
+
+
+
+
 });
