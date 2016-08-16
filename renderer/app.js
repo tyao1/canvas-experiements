@@ -36,7 +36,7 @@ if (!canvas) {
 }
 
 const width = window.innerWidth;
-const height = window.outerHeight;
+const height = window.innerHeight;
 
 const realWidth = width * 2;
 const realHeight = height * 2;
@@ -49,7 +49,116 @@ const tree = el('rect', {
   height: realHeight,
   width: realWidth,
   fillStyle: '#fff',
+  direction: 'column',
+  padTop: 278,
 }, [
+  el('rect', {
+    position: 'absolute',
+    fillStyle: '#affeaf',
+    x: 0,
+    y: realHeight - 400,
+    width: realWidth,
+    height: 400,
+  }),
+  el('text', {
+    fillStyle: '#333',
+    font: '28px serif',
+    textAlign: 'center',
+    grow: 0,
+    height: 50,
+  }, '走路真的能赚钱!'),
+  el('text', {
+    grow: 0,
+    fillStyle: '#eee',
+    font: '18px serif',
+    height: 50,
+    textAlign: 'center',
+  }, '我用平安好医生计步，每天赚6元'),
+  el('empty', {
+    direction: 'row',
+    padLeft: 60,
+    padRight: 60,
+    padTop: 40,
+  }, [
+    el('empty', {
+      direction: 'column',
+    }, [
+      el('text', {
+        grow: 0,
+        height: 42,
+        font: '40px serif',
+        fillStyle: '#a06c6c',
+        textAlign: 'center',
+      }, '0.00'),
+      el('text', {
+        font: '20px serif',
+        fillStyle: '#666',
+        textAlign: 'center',
+      }, '累计赚钱'),
+    ]),
+    el('empty', {
+      direction: 'column',
+    }, [
+      el('text', {
+        grow: 0,
+        height: 42,
+        font: '40px serif',
+        fillStyle: '#a06c6c',
+        textAlign: 'center',
+      }, '0'),
+      el('text', {
+        font: '20px serif',
+        fillStyle: '#666',
+        textAlign: 'center',
+      }, '累计赚钱'),
+    ]),
+    el('empty', {
+      direction: 'column',
+    }, [
+      el('text', {
+        grow: 0,
+        height: 42,
+        font: '40px serif',
+        fillStyle: '#a06c6c',
+        textAlign: 'center',
+      }, '0'),
+      el('text', {
+        font: '20px serif',
+        fillStyle: '#666',
+        textAlign: 'center',
+      }, '参与天数'),
+    ]),
+  ]),
+  el('rect', {
+    position: 'absolute',
+    fillStyle: '#fff',
+    strokeStyle: '#ccc',
+    x: realWidth / 2 - 180,
+    y: realHeight - 360 - 80 - 40,
+    width: 360,
+    height: 360,
+  }),
+  qr({
+    position: 'absolute',
+    value: 'http://baidu.com',
+    level: 3,
+    width: 420,
+    height: 420,
+    x: realWidth / 2 - 200,
+    y: realHeight - 420 - 80,
+  }),
+]);
+
+
+render(ctx, {
+  width,
+  height,
+}, tree, () => {
+  // const pngUrl = canvas.toDataURL();
+  // console.log('dataUrl', pngUrl);
+});
+
+
 /*
   safari不支持，chrome无法输出结果
   el('dom', {
@@ -78,41 +187,8 @@ const tree = el('rect', {
 </foreignObject>
 </svg>`),
 */
-  el('text', {
-    x: realWidth / 2 - 90,
-    y: realHeight - 36,
-    fillStyle: '#999',
-    font: '32px serif',
-  }, '要健康上平安好医生'),
-  el('text', {
-    x: realWidth / 2 - 90,
-    y: realHeight - 68 - 24,
-    fillStyle: '#4a4a4a',
-    font: '48px bold serif',
-  }, '平安好医生'),
-  qr({
-    value: 'http://baidu.com',
-    level: 3,
-    width: 500,
-    height: 500,
-    x: realWidth / 2 - 250,
-    y: realHeight / 2,
-  }),
-]);
 
-
-render(ctx, {
-  width,
-  height,
-}, tree, () => {
   /*
-  const imageData = ctx.getImageData(0, 0, realWidth, realHeight);
-  alert('Finished without errors');
-  */
-
-  const pngUrl = canvas.toDataURL();
-  console.log('dataUrl', pngUrl);
-
   if (canvas.toBlob) {
     canvas.toBlob(function(blob) {
       var newImg = document.createElement("img"),
@@ -127,8 +203,4 @@ render(ctx, {
       document.body.appendChild(newImg);
     });
   }
-
-
-
-
-});
+  */

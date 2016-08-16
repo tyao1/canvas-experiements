@@ -115,7 +115,7 @@ const gexp = [
 
 // Working buffers:
 // data input and ecc append, image working buffer, fixed part of image, run lengths for badness
-var strinbuf=[], eccbuf=[], qrframe=[], framask=[], rlens=[]; 
+var strinbuf, eccbuf, qrframe, framask, rlens; 
 // Control values - width is based on version, last 4 are from table.
 var version, width, neccblk1, neccblk2, datablkw, eccblkwid;
 var ecclevel = 1;
@@ -708,32 +708,7 @@ function genframe(instring, ecclevel)
     return qrframe;
 }
 
-/*
-var wd, ht, qrc;
-function setupqr(){
-//    window.scrollTo(0,1)
-    wd = window.innerWidth-10;
-    ht = window.innerHeight-10;
-    mp = document.getElementById("mapcanv");
-
-    qrd = document.getElementById("qrdiv");
-    qrd.style.width = wd + "px";
-    qrd.style.height = ht + "px";
-
-    wd -= 4;
-    ht -= 80;
-
-    var elem = document.getElementById('qrcanv');
-    qrc = elem.getContext('2d');
-    qrc.canvas.width = wd;
-    qrc.canvas.height = ht;
-    qrc.fillStyle = '#eee';
-    qrc.fillRect(0,0,wd,ht);
-
-}
-*/
-
-function genQR(ctx, el) {
+function genQR(ctx, el, props) {
   const {
     value,
     level = 1,
@@ -743,8 +718,14 @@ function genQR(ctx, el) {
     y = 0,
     bgColor = '#fff',
     fgColor = '#000',
-  } = el.props;
+  } = props;
 
+  // 初始化buffer
+  strinbuf=[];
+  eccbuf=[];
+  qrframe=[];
+  framask=[];
+  rlens=[]; 
   const result = genframe(value, level);
 
   let px = wd;
@@ -755,8 +736,8 @@ function genQR(ctx, el) {
   px = Math.round(px - 0.5);
 
   ctx.lineWidth=1;
-  ctx.fillStyle = bgColor;
-  ctx.fillRect(0,0,px*(width+8),px*(width+8));
+  // ctx.fillStyle = bgColor;
+  // ctx.fillRect(x,y,px*(width+8),px*(width+8));
   ctx.fillStyle = fgColor;
 
   for( let i = 0; i < width; i++ )
@@ -764,11 +745,11 @@ function genQR(ctx, el) {
       if( result[j*width+i] )
         ctx.fillRect( x + px * (4 + i), y + px * (4 + j), px, px)
   // 释放内存
-  strinbuf=[];
-  eccbuf=[];
-  qrframe=[];
-  framask=[];
-  rlens=[]; 
+  strinbuf=null;
+  eccbuf=null;
+  qrframe=null;
+  framask=null;
+  rlens=null; 
 
 }
 

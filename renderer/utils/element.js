@@ -9,6 +9,7 @@ export default function el(type, props, children) {
     type,
     props,
     children,
+    // defaultProps: defaultProps || this.defaultProps,
   };
 }
 
