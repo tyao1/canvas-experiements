@@ -91,7 +91,6 @@ function calcPosition(parentStyle, currentProp) {
     calcedStyle.padBottom = cPadBottom;
     calcedStyle.padTop = cPadTop;
     calcedStyle.direction = cDirection;
-    console.log('absolute1!!', calcedStyle);
   } else {
     // using flex like positioning
     let remainWidth = width - padLeft - padRight - fixWidth;
@@ -104,7 +103,6 @@ function calcPosition(parentStyle, currentProp) {
       calcedStyle.x = x + padLeft;
       calcedStyle.y = y + padTop;
     } else { // get the total grow of children
-      console.log({x, y, fixHeight, fixWidth, direction, childPos, totalGrow});
       if (direction === 'row') {
         const myWidth = cGrow ? cGrow / totalGrow * remainWidth
         : cWidth;
@@ -139,7 +137,6 @@ function calcPosition(parentStyle, currentProp) {
 
       // introduce mutation
       parentStyle.childPos = childPos;
-      console.log(childPos);
     }
     
   }
@@ -177,13 +174,20 @@ function renderElement(ctx, task, parentStyle, el) {
   };
   // const {x, y, width, height} = finalProps;
   const calcedStyle = calcPosition(parentStyle, finalProps);
-  console.log('CACLED', calcedStyle);
   const {x, y, width, height} = calcedStyle;
 
   if (typeof type === 'function') {
     type(ctx, el, {...finalProps, ...calcedStyle});
   } else {
-    if ( type === 'dom') {
+    if (type === 'img') {
+      async = true;
+      const img = new Image();
+      img.onload = function onImageLoad() {
+        ctx.drawImage(img, x, y, width, height);
+        task.finishTask();
+      }
+      img.src = finalProps.src;
+    } else if ( type === 'dom') {
       async = true;
       invariant(typeof children === 'string', '需要Dom字符串！');
 

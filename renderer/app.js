@@ -52,6 +52,14 @@ const tree = el('rect', {
   direction: 'column',
   padTop: 278,
 }, [
+  el('img', {
+    src: './logo.png',
+    position: 'absolute',
+    x: 24,
+    y: 24,
+    width: 100,
+    height: 100,
+  }),
   el('rect', {
     position: 'absolute',
     fillStyle: '#affeaf',
@@ -129,24 +137,39 @@ const tree = el('rect', {
       }, '参与天数'),
     ]),
   ]),
-  el('rect', {
+  el('empty', {
     position: 'absolute',
-    fillStyle: '#fff',
-    strokeStyle: '#ccc',
-    x: realWidth / 2 - 180,
-    y: realHeight - 360 - 80 - 40,
-    width: 360,
-    height: 360,
-  }),
-  qr({
-    position: 'absolute',
-    value: 'http://baidu.com',
-    level: 3,
     width: 420,
-    height: 420,
     x: realWidth / 2 - 200,
     y: realHeight - 420 - 80,
-  }),
+    direction: 'column',
+  }, [
+    el('rect', {
+      fillStyle: '#f33',
+      height: 24,
+    }, [
+      el('text', {
+        font: '20px',
+        fillStyle: '#a06c6c',
+        textAlign: 'center',
+      }, '长按识别二维码加入'),
+    ]),
+    el('rect', {
+      position: 'absolute',
+      fillStyle: '#fff',
+      strokeStyle: '#ccc',
+      x: realWidth / 2 - 180,
+      y: realHeight - 360 - 80 - 40,
+      width: 360,
+      height: 360,
+    }),
+    qr({
+      value: 'http://baidu.com',
+      level: 3,
+      height: 420,
+    }),
+  ]),
+
 ]);
 
 
@@ -154,8 +177,8 @@ render(ctx, {
   width,
   height,
 }, tree, () => {
-  // const pngUrl = canvas.toDataURL();
-  // console.log('dataUrl', pngUrl);
+  const pngUrl = canvas.toDataURL();
+  console.log('dataUrl', pngUrl);
 });
 
 
