@@ -708,7 +708,7 @@ function genframe(instring, ecclevel)
     return qrframe;
 }
 
-function genQR(ctx, el, props) {
+function Qr(ctx, el, props) {
   const {
     value,
     level = 1,
@@ -726,24 +726,26 @@ function genQR(ctx, el, props) {
   qrframe=[];
   framask=[];
   rlens=[]; 
+
+  // 二维码二进制结果
   const result = genframe(value, level);
 
   let px = wd;
   if( ht < wd )
       px = ht;
-  px /= width + 10;
+  px /= width;
 
-  px = Math.round(px - 0.5);
+  // px = Math.round(px - 0.5);
 
   ctx.lineWidth=1;
-  // ctx.fillStyle = bgColor;
-  // ctx.fillRect(x,y,px*(width+8),px*(width+8));
+  ctx.fillStyle = bgColor;
+  ctx.fillRect(x,y,px*(width),px*(width));
   ctx.fillStyle = fgColor;
 
   for( let i = 0; i < width; i++ )
     for( let j = 0; j < width; j++ )
       if( result[j*width+i] )
-        ctx.fillRect( x + px * (4 + i), y + px * (4 + j), px, px)
+        ctx.fillRect( x + px * i, y + px * j, px, px)
   // 释放内存
   strinbuf=null;
   eccbuf=null;
@@ -753,4 +755,4 @@ function genQR(ctx, el, props) {
 
 }
 
-export default genQR;
+export default Qr;

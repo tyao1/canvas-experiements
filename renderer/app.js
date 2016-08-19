@@ -1,34 +1,13 @@
-import render from './utils/render';
-import el, { qr } from './utils/element';
-import { stringStyle as style} from './utils/inlineStyle';
+import render from './render';
+import el from './elements/element';
+import Qr from './elements/Qr';
+import Image from './elements/Image';
+import Text from './elements/Text';
+import View from './elements/View';
 
-const styles = {
-  container: {
-    fontSize: '32px',
-  },
-  infoSection: {
-    padding: '14px',
-  },
-  fakeLocation: {
-    backgroundColor: '#ef7474',
-    height: '200px',
-  },
-  info: {
-    boxSizing: 'border-box',
-    display: 'inline-block',
-    width: '33%',
-    textAlign: 'center',
-    padding: '20px',
-  },
-  caption: {
-    color: '#979797',
-    marginBottom: '3px',
-  },
-  value: {
-    color: 'red',
-    fontSize: '1.2em',
-  },
-}
+// import { stringStyle as style} from './styles/inlineStyle';
+// import styles from './styles/app.styles.js';
+
 
 const canvas = document.getElementById('main');
 if (!canvas) {
@@ -38,48 +17,45 @@ if (!canvas) {
 const width = window.innerWidth;
 const height = window.innerHeight;
 
-const realWidth = width * 2;
-const realHeight = height * 2;
-
 const ctx = canvas.getContext('2d');
 
-const tree = el('rect', {
+const tree = el(View, {
   x: 0,
   y: 0,
-  height: realHeight,
-  width: realWidth,
+  height,
+  width,
   fillStyle: '#fff',
   direction: 'column',
-  padTop: 278,
+  padTop: 0,
 }, [
-  el('img', {
+  el(Image, {
     src: './logo.png',
     position: 'absolute',
-    x: 24,
-    y: 24,
-    width: 100,
-    height: 100,
+    x: 12,
+    y: 12,
+    width: 50,
+    height: 50,
   }),
-  el('rect', {
+  el(View, {
     position: 'absolute',
     fillStyle: '#affeaf',
     x: 0,
-    y: realHeight - 400,
-    width: realWidth,
-    height: 400,
+    y: height - 200,
+    width,
+    height: 200,
   }),
-  el('text', {
+  el(Text, {
     fillStyle: '#333',
     font: '28px serif',
     textAlign: 'center',
     grow: 0,
-    height: 50,
+    height: 20,
   }, '走路真的能赚钱!'),
-  el('text', {
+  el(Text, {
     grow: 0,
     fillStyle: '#eee',
     font: '18px serif',
-    height: 50,
+    height: 20,
     textAlign: 'center',
   }, '我用平安好医生计步，每天赚6元'),
   el('empty', {
@@ -91,14 +67,14 @@ const tree = el('rect', {
     el('empty', {
       direction: 'column',
     }, [
-      el('text', {
+      el(Text, {
         grow: 0,
         height: 42,
         font: '40px serif',
         fillStyle: '#a06c6c',
         textAlign: 'center',
       }, '0.00'),
-      el('text', {
+      el(Text, {
         font: '20px serif',
         fillStyle: '#666',
         textAlign: 'center',
@@ -107,14 +83,14 @@ const tree = el('rect', {
     el('empty', {
       direction: 'column',
     }, [
-      el('text', {
+      el(Text, {
         grow: 0,
         height: 42,
         font: '40px serif',
         fillStyle: '#a06c6c',
         textAlign: 'center',
       }, '0'),
-      el('text', {
+      el(Text, {
         font: '20px serif',
         fillStyle: '#666',
         textAlign: 'center',
@@ -123,14 +99,14 @@ const tree = el('rect', {
     el('empty', {
       direction: 'column',
     }, [
-      el('text', {
+      el(Text, {
         grow: 0,
         height: 42,
         font: '40px serif',
         fillStyle: '#a06c6c',
         textAlign: 'center',
       }, '0'),
-      el('text', {
+      el(Text, {
         font: '20px serif',
         fillStyle: '#666',
         textAlign: 'center',
@@ -140,33 +116,37 @@ const tree = el('rect', {
   el('empty', {
     position: 'absolute',
     width: 420,
-    x: realWidth / 2 - 200,
-    y: realHeight - 420 - 80,
+    x: width - 200,
+    y: height - 420 - 80,
     direction: 'column',
   }, [
-    el('rect', {
+    el(View, {
       fillStyle: '#f33',
       height: 24,
     }, [
-      el('text', {
+      el(Text, {
         font: '20px',
         fillStyle: '#a06c6c',
         textAlign: 'center',
       }, '长按识别二维码加入'),
     ]),
-    el('rect', {
+    el(View, {
       position: 'absolute',
       fillStyle: '#fff',
       strokeStyle: '#ccc',
-      x: realWidth / 2 - 180,
-      y: realHeight - 360 - 80 - 40,
-      width: 360,
-      height: 360,
+      x: width / 2 - 90,
+      y: height - 20 - 220,
+      width: 180,
+      height: 180,
     }),
-    qr({
+    el(Qr, {
+      position: 'absolute',
       value: 'http://baidu.com',
       level: 3,
-      height: 420,
+      height: 180,
+      width: 180,
+      x: width / 2 - 90,
+      y: height - 20 - 220,
     }),
   ]),
 
@@ -176,13 +156,15 @@ const tree = el('rect', {
 render(ctx, {
   width,
   height,
+  ratio: 1,
 }, tree, () => {
-  const pngUrl = canvas.toDataURL();
-  console.log('dataUrl', pngUrl);
+  // const pngUrl = canvas.toDataURL();
+  // console.log('dataUrl', pngUrl);
 });
 
 
 /*
+  legacy code
   safari不支持，chrome无法输出结果
   el('dom', {
     x: 0,
